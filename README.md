@@ -134,4 +134,4 @@ MIT OR Apache-2.0. Os fatos de protocolo vêm de documentação de projeto GPL (
 
 ---
 
-☕ **Gostou do Sillinux?** Se ele te poupou tempo (ores uma dor de cabeça), um café é sempre bem-vindo — e ajuda a manter o projeto vivo: [**ko-fi.com/racxus**](https://ko-fi.com/racxus) 💛
+☕ **Gostou do Sillinux?** Se ele te poupou tempo (e/ou uma dor de cabeça), um café é sempre bem-vindo — e ajuda a manter o projeto vivo: [**ko-fi.com/racxus**](https://ko-fi.com/racxus) 💛
