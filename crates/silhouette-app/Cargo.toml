@@ -1,0 +1,23 @@
+[package]
+name = "silhouette-app"
+description = "CLI for inspecting .studio3 files and running the verified GPGL job"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+silhouette-core = { path = "../silhouette-core" }
+silhouette-driver = { path = "../silhouette-driver", features = ["usb"] }
+# Pure-Rust, already in the offline cargo cache. `png` decodes the artwork;
+# `flate2` compresses the RGB scanlines embedded in the print PDF.
+png = "0.17"
+flate2 = "1"
+
+[features]
+default = []
+vendored-usb = ["silhouette-driver/usb-vendored"]
+
+[[bin]]
+name = "silhouette"
+path = "src/main.rs"

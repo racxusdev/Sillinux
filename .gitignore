@@ -1,0 +1,13 @@
+# Rust
+/target
+
+# AppImage build artifacts
+/AppDir
+/dist
+*.AppImage
+
+# Downloaded packaging tools (appimagetool)
+/packaging/tools/
+
+# Local fixtures and scratch
+*.log

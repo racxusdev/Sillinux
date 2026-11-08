@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.sillinux.Sillinux</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <name>Sillinux</name>
+  <summary>Open .studio3 designs and drive Silhouette cutters on Linux</summary>
+  <description>
+    <p>
+      Sillinux is a Linux-native studio and cutter controller for Silhouette
+      cutting machines (Cameo 5 first). It opens .studio3 design files, SVG,
+      PDF and raster images, offers vector editing, raster tracing and
+      offsetting, prints sheets with registration marks through CUPS, and
+      drives the cutter over USB or Bluetooth — including the fail-closed
+      registration-mark scan before cutting.
+    </p>
+    <p>
+      The protocol and file format were reimplemented from hardware-verified
+      evidence; see the project documentation. Sillinux is not affiliated with
+      Silhouette America or Graphtec.
+    </p>
+  </description>
+  <launchable type="desktop-id">sillinux.desktop</launchable>
+  <provides>
+    <binary>sillinux</binary>
+    <binary>silhouette</binary>
+  </provides>
+  <releases>
+    <release version="0.1.0" date="2026-11-03">
+      <description>
+        <p>First packaged release: GUI, CLI, print sheet with marks, USB and
+        Bluetooth transports, registration-mark scan and cut.</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

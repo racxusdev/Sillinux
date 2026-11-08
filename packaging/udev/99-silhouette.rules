@@ -1,0 +1,16 @@
+# Sillinux — Silhouette / Graphtec cutters
+#
+# Grants the active desktop user access to the cutter without sudo.
+# Install with:
+#   sudo cp packaging/udev/99-silhouette.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+# …and unplug/replug the cutter once.
+#
+# `uaccess` puts an ACL for the active logind seat session on the device node.
+# GROUP="plugdev" is the fallback for sessions without systemd-logind: without
+# one of the two, the open fails with "acesso negado / insufficient permissions"
+# (an AppImage runs as the plain desktop user and cannot fix this itself).
+#
+# Silhouette cutters enumerate as VID 0b4d (Graphtec), e.g. Cameo 5 = 0b4d:1140.
+
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0b4d", TAG+="uaccess", MODE="0660", GROUP="plugdev"

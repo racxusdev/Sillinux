@@ -1,0 +1,41 @@
+[package]
+name = "silhouette-ui"
+description = "View-model logic and optional egui GUI for the Silhouette tooling"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+vendored-usb = ["silhouette-driver/usb-vendored"]
+gui = ["dep:eframe", "dep:egui", "dep:rfd", "dep:png", "dep:image", "dep:psd", "dep:resvg", "dep:base64", "dep:ttf-parser", "dep:fontdb", "dep:zbus", "dep:serde", "dep:serde_json", "dep:vtracer", "dep:visioncortex"]
+
+[dependencies]
+silhouette-core = { path = "../silhouette-core" }
+silhouette-driver = { path = "../silhouette-driver", features = ["usb"] }
+silhouette-app = { path = "../silhouette-app" }
+eframe = { version = "0.29", optional = true, default-features = false, features = ["glow", "x11", "wayland", "default_fonts"] }
+egui = { version = "0.29", optional = true }
+rfd = { version = "0.15", optional = true }
+png = { version = "0.17", optional = true }
+image = { version = "0.25", optional = true, default-features = false, features = ["png", "jpeg", "tiff"] }
+psd = { version = "0.3", optional = true }
+resvg = { version = "0.47", optional = true, default-features = false, features = ["text", "raster-images"] }
+base64 = { version = "0.22", optional = true }
+ttf-parser = { version = "0.25", optional = true }
+fontdb = { version = "0.23", optional = true, features = ["fs"] }
+# "Qualidade Studio" trace engine: color clustering + Bézier curve fitting.
+vtracer = { version = "0.6", optional = true }
+# Direct dep for CompoundPathElement/PathSimplifyMode types used by the engine.
+visioncortex = { version = "0.8", optional = true }
+# Bluetooth scan/pair via D-Bus (BlueZ) — replaces the external bluetoothctl.
+zbus = { version = "5", optional = true }
+# Preferences persistence (prefs.json in ~/.config/sillinux).
+serde = { version = "1", optional = true, features = ["derive"] }
+serde_json = { version = "1", optional = true }
+
+[[bin]]
+name = "silhouette-gui"
+path = "src/main.rs"
+required-features = ["gui"]

@@ -1,0 +1,26 @@
+[package]
+name = "silhouette-driver"
+description = "GPGL command encoder and USB transport for Silhouette cutters"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# `usb` is optional. libusb is a C library: it is the backend that was actually
+# verified against the device (via PyUSB), and it is the only one available in
+# this offline environment. The core encoder and the `Transport` trait are pure
+# Rust and build with `--no-default-features`.
+rusb = { version = "0.9", optional = true }
+# Bluetooth SPP transport (`bt`): a direct AF_BLUETOOTH/RFCOMM socket needs no
+# privileges, unlike the old `rfcomm bind` + pkexec path. Linux only.
+libc = "0.2"
+
+[features]
+default = []
+usb = ["dep:rusb"]
+# `usb-vendored` additionally builds libusb from source and links it
+# statically, so the binary does not depend on the system libusb. libudev
+# stays dynamic (symbol version LIBUDEV_183, present everywhere since 2012);
+# the AppImage bundles a fallback copy.
+usb-vendored = ["usb", "rusb/vendored"]

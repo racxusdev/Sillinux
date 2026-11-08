@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Sillinux
+GenericName=Vinyl Cutter Studio
+Comment=Open .studio3 designs, edit, print marked sheets and drive Silhouette cutters
+Exec=sillinux %F
+Icon=sillinux
+Terminal=false
+Categories=Graphics;2DGraphics;VectorGraphics;
+Keywords=cutter;vinyl;silhouette;cameo;plotter;studio3;
+MimeType=application/x-silhouette-studio;
+StartupWMClass=sillinux
