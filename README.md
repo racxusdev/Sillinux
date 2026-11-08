@@ -9,6 +9,9 @@ configura e envia o corte pela **USB** direto usando o protocolo **GPGL**
 (1 unidade = 0,05 mm) ou por **Bluetooth** sem root. Inclui **marcas de
 registro** para fluxo *print & cut* com impressão via CUPS.
 
+<img width="1318" height="905" alt="imagem" src="https://github.com/user-attachments/assets/e48b1f29-37ec-4d8d-bf64-add4c130c0d7" />
+
+
 Dois programas:
 
 | binário | o que faz |
