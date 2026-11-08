@@ -9,6 +9,9 @@ directly using the **GPGL** protocol (1 unit = 0.05 mm) or over **Bluetooth**
 without root. Includes **registration marks** for the *print & cut* flow with
 CUPS printing.
 
+<img width="1318" height="905" alt="imagem" src="https://github.com/user-attachments/assets/dee699fb-2b6d-42d9-9b7f-9e56eec6a2b8" />
+
+
 Two programs:
 
 | binary | what it does |
