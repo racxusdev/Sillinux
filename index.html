@@ -147,64 +147,30 @@
             transform: translateY(-2px);
         }
 
-        /* Image Placeholder/Real Image */
+        /* Hero Image Adaptada */
         .hero-image-container {
-            flex: 1;
+            flex: 1.2;
             display: flex;
             justify-content: center;
+            align-items: center;
             position: relative;
         }
 
         .hero-img {
             width: 100%;
-            max-width: 700px;
+            height: auto;
+            max-height: 550px; /* Evita que a imagem fique gigante em telas grandes */
+            object-fit: contain; /* Adapta a imagem sem cortar as bordas */
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             border: 1px solid #e2e8f0;
-        }
-
-        .mockup-placeholder {
-            width: 100%;
-            max-width: 700px;
-            aspect-ratio: 16/10;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .mockup-header {
-            height: 40px;
-            background: #f1f5f9;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            gap: 8px;
-        }
-
-        .mockup-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .mockup-dot:nth-child(1) { background: #ef4444; }
-        .mockup-dot:nth-child(2) { background: #eab308; }
-        .mockup-dot:nth-child(3) { background: #22c55e; }
-
-        .mockup-body {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 1.2rem;
-            background: repeating-linear-gradient(45deg, #f8fafc, #f8fafc 10px, #f1f5f9 10px, #f1f5f9 20px);
+        .hero-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
         }
 
         /* Features Section */
@@ -363,6 +329,11 @@
                 justify-content: center;
             }
 
+            .hero-image-container {
+                margin-top: 2rem;
+                width: 100%;
+            }
+
             .nav-links {
                 display: none; /* Add a mobile menu if needed */
             }
@@ -400,20 +371,8 @@
         </div>
 
         <div class="hero-image-container">
-            <!-- 
-                SUBSTITUA O BLOCO ABAIXO PELA SUA IMAGEM REAL:
-                <img src="sua-imagem.png" alt="Interface do Sillinux" class="hero-img"> 
-            -->
-            <div class="mockup-placeholder">
-                <div class="mockup-header">
-                    <div class="mockup-dot"></div>
-                    <div class="mockup-dot"></div>
-                    <div class="mockup-dot"></div>
-                </div>
-                <div class="mockup-body">
-                    (Substitua por sua imagem da GUI aqui)
-                </div>
-            </div>
+            <!-- Sua imagem real adaptada e estilizada -->
+            <img src="https://github.com/user-attachments/assets/15860ab6-bd8b-4b65-9dcd-2ca02b982d8f" alt="Interface gráfica do Sillinux mostrando a tela de vetorização e corte" class="hero-img">
         </div>
     </header>
 
