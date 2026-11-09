@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sillinux - Cortador Silhouette/Graphtec para Linux</title>
+    <meta name="description" content="Alternativa gratuita e nativa ao Silhouette Studio. Desenvolvido em Rust, sem Wine. Importe, edite, vetorize e corte via USB ou Bluetooth.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --primary-light: #60a5fa;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --card-bg: #ffffff;
+            --gradient-hero: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 50%, #bfdbfe 100%);
+            --gradient-btn: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -0.5px;
+        }
+        
+        .logo span {
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 5rem 5% 6rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+            background: linear-gradient(to right, #1e3a8a, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-btn);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-blue);
+            border: 2px solid #bfdbfe;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        /* Image Placeholder/Real Image */
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .mockup-placeholder {
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 16/10;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .mockup-header {
+            height: 40px;
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 8px;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .mockup-dot:nth-child(1) { background: #ef4444; }
+        .mockup-dot:nth-child(2) { background: #eab308; }
+        .mockup-dot:nth-child(3) { background: #22c55e; }
+
+        .mockup-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1.2rem;
+            background: repeating-linear-gradient(45deg, #f8fafc, #f8fafc 10px, #f1f5f9 10px, #f1f5f9 20px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            color: #0f172a;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-color: #bfdbfe;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: #eff6ff;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #1e293b;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Code/CLI Section */
+        .cli-section {
+            padding: 5rem 5%;
+            background: var(--bg-color);
+            text-align: center;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: left;
+            max-width: 800px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .code-block span {
+            color: #60a5fa;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 4rem 5% 2rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .support-btn {
+            display: inline-block;
+            background: #ff5e5b;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .support-btn:hover {
+            background: #ff4040;
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #1e293b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 4rem 5%;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .download-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none; /* Add a mobile menu if needed */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Silli<span>nux</span></div>
+        <div class="nav-links">
+            <a href="#features">Recursos</a>
+            <a href="#cli">CLI</a>
+            <a href="https://github.com/racxusdev/Sillinux" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>A alternativa nativa e gratuita ao Silhouette Studio.</h1>
+            <p>Ferramenta nativa para Linux (Rust, sem Wine) para cortadores Silhouette / Graphtec. Importe imagens e SVG, edite por camadas, vetorize com motores de qualidade Studio e envie o corte via USB ou Bluetooth.</p>
+            
+            <div class="download-buttons">
+                <!-- Link direto para download do AppImage -->
+                <a href="https://github.com/racxusdev/Sillinux/releases/download/Alpha/Sillinux-x86_64-7.AppImage" class="btn btn-primary">
+                    ⬇ Baixar AppImage (Portátil)
+                </a>
+                <!-- Link para a página de releases no GitHub -->
+                <a href="https://github.com/racxusdev/Sillinux/releases/tag/Alpha" class="btn btn-secondary">
+                    Ver no GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-image-container">
+            <!-- 
+                SUBSTITUA O BLOCO ABAIXO PELA SUA IMAGEM REAL:
+                <img src="sua-imagem.png" alt="Interface do Sillinux" class="hero-img"> 
+            -->
+            <div class="mockup-placeholder">
+                <div class="mockup-header">
+                    <div class="mockup-dot"></div>
+                    <div class="mockup-dot"></div>
+                    <div class="mockup-dot"></div>
+                </div>
+                <div class="mockup-body">
+                    (Substitua por sua imagem da GUI aqui)
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Poderoso, nativo e livre.</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🦀</div>
+                <h3>100% Rust (Sem Wine)</h3>
+                <p>Construído do zero para Linux. A libusb é compilada embutida e estática — o binário depende apenas da glibc.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🖌️</div>
+                <h3>Vetorização Avançada</h3>
+                <p>Quatro motores, incluindo <strong>Qualidade Studio</strong> (curvas Bézier). Máscara por distância de cor do fundo e polimento automático.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">✂️</div>
+                <h3>Print & Cut</h3>
+                <p>Marcas de registro no padrão Studio (TB123), compensação de distorção e envio de folha de impressão direto via CUPS.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔌</div>
+                <h3>Conexão Simples</h3>
+                <p>Suporte a USB (regra udev automática) e Bluetooth RFCOMM sem precisar de root, rfcomm ou polkit.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <h3>Editor Gráfico Completo</h3>
+                <p>Canvas com zoom/pan, edição de nós, texto com fontes TTF/OTF, múltiplas camadas de imagem e vetor, e até 60 níveis de Undo.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🖨️</div>
+                <h3>Duas Máquinas Simultâneas</h3>
+                <p>Controle duas máquinas ao mesmo tempo (via USB ou Bluetooth) com firmware e estado ao vivo na interface.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLI Section -->
+    <section class="cli-section" id="cli">
+        <h2 class="section-title">Para os amantes do Terminal</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">O Sillinux inclui uma poderosa interface de linha de comando (CLI) para automatizar fluxos de trabalho e validar pipelines.</p>
+        
+        <div class="code-block">
+            <span># Inspecionar um arquivo .studio3</span><br>
+            silhouette inspect arquivo.studio3<br><br>
+            <span># Converter para SVG</span><br>
+            silhouette svg arquivo.studio3 -o saida.svg<br><br>
+            <span># Cortar com marcas de registro</span><br>
+            silhouette cut folha.svg --regmarks --reg-width 180 --reg-length 230<br><br>
+            <span># Testar pipeline sem tocar na máquina (Dry-run)</span><br>
+            silhouette cut desenho.svg --dry-run
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="color: white; margin-bottom: 1rem;">Sillinux</div>
+            <p>Cortador Silhouette/Graphtec nativo para Linux.</p>
+            
+            <div class="footer-links">
+                <a href="https://github.com/racxusdev/Sillinux" target="_blank">GitHub do Projeto</a>
+                <a href="https://racxusdev.blogspot.com/p/racxus-minecraft-developer.html" target="_blank">Outros Projetos (Racxus)</a>
+                <a href="https://github.com/racxusdev/Sillinux/releases/tag/Alpha" target="_blank">Releases</a>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 1rem; color: #cbd5e1;">Gostou do Sillinux? Ajude a manter o projeto vivo!</p>
+                <a href="https://ko-fi.com/racxus" target="_blank" class="support-btn">
+                    ☕ Apoiar no Ko-fi
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Racxus. Licença MIT OR Apache-2.0.</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Desenvolvido com 🦀 Rust.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
